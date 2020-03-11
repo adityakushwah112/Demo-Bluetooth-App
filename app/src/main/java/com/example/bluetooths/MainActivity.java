@@ -33,9 +33,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     Button scan;
-<<<<<<< HEAD
-    Button View;
-=======
+
    
     ListView list_view;
     //CheckBox enable_bt;
@@ -53,13 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-<<<<<<< HEAD
 
-    //Hello
-
-=======
-// hello
->>>>>>> 0556ff3965e065453da5b5c5b610b701f81d4802
 
 
 
