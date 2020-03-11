@@ -31,12 +31,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     Button scan;
-
-   
     ListView list_view;
-    //CheckBox enable_bt;
     CheckBox enable_bt;
     ArrayList<String> stringArrayList = new ArrayList<String>();
     ArrayAdapter<String> arrayAdapter;
@@ -50,11 +46,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     */
-
-
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,10 +81,7 @@ public class MainActivity extends AppCompatActivity {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 myAdapter.startDiscovery();
-
-
             }
         });
 
@@ -101,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
         arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,stringArrayList);
         list_view.setAdapter((arrayAdapter));
-
-
-
     }
 
     BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -115,9 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 stringArrayList.add(device.getName());
                 arrayAdapter.notifyDataSetChanged();
-
             }
-
         }
     };
 }
