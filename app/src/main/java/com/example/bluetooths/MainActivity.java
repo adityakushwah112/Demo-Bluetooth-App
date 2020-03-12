@@ -1,121 +1,79 @@
 package com.example.bluetooths;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.Toast;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    int REQUEST_ENABLE_BT = 1;
 
-    Button scan;
-    ListView list_view;
-    CheckBox enable_bt;
-    ArrayList<String> stringArrayList = new ArrayList<String>();
-    ArrayAdapter<String> arrayAdapter;
-    BluetoothAdapter myAdapter = BluetoothAdapter.getDefaultAdapter();
+    Button buttonON, buttonOFF;
+    BluetoothAdapter myBluetoothAdapter;
+
+    Intent btEnablingIntent;
+    int requestCodeForEnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        scan = (Button) findViewById(R.id.scan);
-        list_view = (ListView) findViewById(R.id.list_view);
-        enable_bt= (CheckBox)findViewById(R.id.on);
 
-        if (myAdapter==null){
-            Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
-        }
+        buttonON = (Button) findViewById(R.id.btON);
+        buttonOFF = (Button) findViewById(R.id.btOFF);
+        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        btEnablingIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        requestCodeForEnable = 1;
 
-        if (myAdapter.isEnabled()){
-            enable_bt.setChecked(true);
-        }
+        bluetoothONMethod();
+        bluetoothOFFMethod();
+    }
 
-        enable_bt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    /* Turn off the bluetooth when OFF button is clicked */
+    private void bluetoothOFFMethod() {
+        buttonOFF.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked){
-                    myAdapter.disable();
-                    Toast.makeText(MainActivity.this, "Turned off", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Intent intentOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(intentOn, 0);
-                    Toast.makeText(MainActivity.this, "Turned on", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                if(myBluetoothAdapter.isEnabled()) {
+                    myBluetoothAdapter.disable();
                 }
             }
         });
+    }
 
-        scan.setOnClickListener(new View.OnClickListener() {
+    /* Match the bluetooth connection request code with result code to decide if connection is established or not */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == requestCodeForEnable) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Bluetooth is enabled.", Toast.LENGTH_LONG).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "Bluetooth enabling cancelled.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    /* Turn off the bluetooth when OFF button is clicked */
+    private void bluetoothONMethod () {
+        buttonON.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myAdapter.startDiscovery();
+                if(myBluetoothAdapter==null)
+                {
+                    Toast.makeText(getApplicationContext(), "Bluetooth not support on this device.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    if(!myBluetoothAdapter.isEnabled()) {
+                        startActivityForResult(btEnablingIntent, requestCodeForEnable);
+                    }
+                }
             }
+
         });
-
-        IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(myReceiver,intentFilter);
-
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,stringArrayList);
-        list_view.setAdapter((arrayAdapter));
     }
 
-    BroadcastReceiver myReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action))
-            {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                stringArrayList.add(device.getName());
-                arrayAdapter.notifyDataSetChanged();
-            }
-        }
-    };
 }
-
-/*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Verify if bluetooth is supported
-        BluetoothAdapter myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(myBluetoothAdapter==null){
-            // Device does not support Bluetooth
-        }
-        else {
-            if(!myBluetoothAdapter.isEnabled()) {
-                // Code for Bluetooth Enable
-                Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BT);
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == REQUEST_ENABLE_BT) {
-            if(resultCode==RESULT_OK){
-                // Bluetooth is enabled
-            }else if(requestCode == RESULT_CANCELED)
-            {
-                // Bluetooth enabling is cancelled
-            }
-        }
-    }
-}
-*/

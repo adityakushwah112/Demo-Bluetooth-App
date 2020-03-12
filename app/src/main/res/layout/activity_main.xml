@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:padding="16dp"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/btON"
+        android:layout_width="128dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="ON"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/btOFF"
+        android:layout_width="128dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="OFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Scan"
-        android:id="@+id/scan"/>
+        android:layout_height="49dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Bluetooth Settings"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="On"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/on"/>
-
-
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="128dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Paired devices"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btON" />
 
     <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/scan"
-        android:background="@color/colorAccent"/>
-
-
-
-</RelativeLayout>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#E8E8E8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+</androidx.constraintlayout.widget.ConstraintLayout>
