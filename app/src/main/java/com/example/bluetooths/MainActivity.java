@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     /* Get list of nearby bluetooth devices into a list view */
     private void scanDeviceButton() {
         buttonScan.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 if(myBluetoothAdapter.isDiscovering()){
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
                     //check BT permissions in manifest
                     checkBTPermissions();
-
                     myBluetoothAdapter.startDiscovery();
                     IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
                     registerReceiver(myReciever, discoverDevicesIntent);
@@ -78,14 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
                     //check BT permissions in manifest
                     checkBTPermissions();
-
                     myBluetoothAdapter.startDiscovery();
                     IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
                     registerReceiver(myReciever, discoverDevicesIntent);
                 }
-
-                checkBTPermissions();
-                myBluetoothAdapter.startDiscovery();
             }
         });
 
@@ -117,8 +113,11 @@ public class MainActivity extends AppCompatActivity {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                stringArrayList.add(device.getName());
-                arrayAdapter.notifyDataSetChanged();
+                String collectDeviceName = device.getName();
+                if(collectDeviceName != null) {
+                    stringArrayList.add(device.getName());
+                    arrayAdapter.notifyDataSetChanged();
+                }
             }
         }
     };
