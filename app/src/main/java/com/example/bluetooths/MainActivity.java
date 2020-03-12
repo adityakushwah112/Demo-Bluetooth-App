@@ -2,7 +2,10 @@ package com.example.bluetooths;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     BluetoothAdapter myBluetoothAdapter;
     ListView listView, scanListView;
     ArrayList<String> stringArrayList = new ArrayList<String>();
+    ArrayAdapter<String> arrayAdapter;
 
     Intent btEnablingIntent;
     int requestCodeForEnable;
@@ -54,10 +58,43 @@ public class MainActivity extends AppCompatActivity {
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                myBluetoothAdapter.startDiscovery();
             }
         });
+
+        IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(myReciever,intentFilter);
+
+        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, stringArrayList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Get the Item from ListView
+                View view = super.getView(position, convertView, parent);
+
+                // Initialize a TextView for ListView each Item
+                TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                // Set the text color of TextView (ListView Item)
+                tv.setTextColor(Color.BLACK);
+
+                // Generate ListView Item using TextView
+                return view;
+            }
+        };
+        scanListView.setAdapter(arrayAdapter);
     }
+
+    BroadcastReceiver myReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(BluetoothDevice.ACTION_FOUND.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                stringArrayList.add(device.getName());
+                arrayAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     /* Get list of all paired devices into a list view */
     private void pairedDeviceButton() {

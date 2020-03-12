@@ -10,20 +10,22 @@
 
     <Button
         android:id="@+id/btON"
-        android:layout_width="128dp"
-        android:layout_height="55dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:background="#B9F6CA"
         android:text="ON"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/btOFF"
-        android:layout_width="128dp"
-        android:layout_height="55dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:background="#FF8A80"
         android:text="OFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -43,42 +45,47 @@
 
     <Button
         android:id="@+id/btPair"
-        android:layout_width="128dp"
-        android:layout_height="55dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:background="#80D8FF"
         android:text="Paired devices"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btON" />
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="180dp"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/secondList"
+        android:layout_marginEnd="8dp"
+        android:background="#80D8FF"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btPair" />
 
     <ListView
         android:id="@+id/secondList"
-        android:layout_width="180dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#FFE57F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btScan" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listview" />
 
     <Button
         android:id="@+id/btScan"
-        android:layout_width="128dp"
-        android:layout_height="55dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:background="#FFE57F"
         android:text="SCAN NEARBY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btOFF" />
