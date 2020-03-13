@@ -27,7 +27,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    Button buttonON, buttonOFF, buttonPair, buttonScan;
+    Button buttonON, buttonOFF, buttonPair, buttonScan, buttonDiscover;
     BluetoothAdapter myBluetoothAdapter;
     ListView listView, scanListView;
     ArrayList<String> stringArrayList = new ArrayList<String>();
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         buttonOFF = (Button) findViewById(R.id.btOFF);
         buttonPair = (Button) findViewById(R.id.btPair);
         buttonScan = (Button) findViewById(R.id.btScan);
+        buttonDiscover = (Button) findViewById(R.id.btDiscover);
         listView = (ListView) findViewById(R.id.listview);
         scanListView = (ListView) findViewById(R.id.secondList);
 
@@ -56,6 +57,19 @@ public class MainActivity extends AppCompatActivity {
         bluetoothOFFMethod();
         pairedDeviceButton();
         scanDeviceButton();
+        discoverableButton();
+    }
+
+    /* Make device discoverable for 1 minute */
+    private void discoverableButton() {
+        buttonDiscover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 60);
+                startActivity(intent);
+            }
+        });
     }
 
     /* Get list of nearby bluetooth devices into a list view */
